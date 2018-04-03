@@ -5,7 +5,7 @@
 %% File encoding: ASCII
 
 \NeedsTeXFormat{LaTeX2e}
-\newcommand{\hgbDate}{2017/02/28}	% version string
+\newcommand{\hgbDate}{2018/02/19}	% version string
 \ProvidesPackage{hgb}[\hgbDate]
 
 % Create a default/fallback main language so it is set no matter what
@@ -66,11 +66,19 @@
 \RequirePackage[unicode]{hyperref}	% utf8-change
 \hypersetup{
 	linktocpage = true,				% make page number, not text, be link on TOC, LOF and LOT 
-  colorlinks = false,				% don't uses colored links (because this shows up in printing!) 
+	colorlinks = false,				% don't uses colored links (because this shows up in printing!) 
 	pdfborder = {0 0 0.5},			% use a thinner (0.5pt) border around all PDF links
 	allbordercolors = {0 0 0.8},	% dark blue border for all types of links
 	breaklinks = true				% allow links to break over lines by making links over multiple lines
 }	%see https://www.tug.org/applications/hyperref/manual.html
+
+% Redefine certain commands for bookmarks and meta-data
+\let\oldand\and
+\pdfstringdefDisableCommands{%
+	\def\\{}%
+	\def\url#1{<#1>}%
+	\def\and{\texorpdfstring{\oldand}{, }}%
+}
 
 \RequirePackage[figure,table,table*]{hypcap}	% do not redefine figure* for use in article (without captions)
 
@@ -96,9 +104,8 @@
   \noindent\makebox[\textwidth]{\rule{4cm}{0.4pt}}
   \vskip 2.5ex}
 
-% Creates a new and non-indented paragraph with additional spacing
-\newcommand{\SuperPar}[0]{% 
-\par\bigskip\noindent%
+\newcommand{\SuperPar}[0]{%
+\PackageWarning{hgb}{Due to frequent misuse, macro 'SuperPar' has been removed.}
 }
 
 % Test box for print proofing
@@ -239,9 +246,15 @@
 }}%
 {\end{list}}
 
+\providecommand{\hgb@PathName}{Pfad}
+
 \newenvironment{FileList}[1]%
-{\paragraph{Pfad:} \url{#1}
- \begin{list}{}%
+{%\paragraph{Pfad:} \url{#1}
+\ifthenelse{\equal{\hgb@MainLanguage}{german}}
+	{\renewcommand{\hgb@PathName}{Pfad}}%
+	{\renewcommand{\hgb@PathName}{Path}}%
+\paragraph{\hgb@PathName: \nolinkurl{#1}}
+\begin{list}{}%
 {\setlength{\leftmargin}{5cm}
  \setlength{\labelwidth}{4cm}
  \setlength{\labelsep}{0.25cm}
@@ -257,7 +270,13 @@
 \def\widedotfill{\leaders\hbox to 8pt{\hfil.\hfil}\hfill}
 
 \newcommand{\fitem}[1]{%
-\item[\url{#1}\widedotfill]
+\item[\nolinkurl{#1}\widedotfill]
 }
+
+%% For inserting foreign PDF pages --------------------------------------------
+
+\RequirePackage{pdfpages}
+
+%% ----------------------------------------------------------------------------
 
 \setlength{\fboxsep}{0mm}			%globally zero fbox separator

@@ -1,13 +1,11 @@
 %% hgbbib.sty
+%% Bibliography Setup
 %% This file is part of the Hagenberg Thesis package for creating bachelors's and masters's theses
 %% Author: Wilhelm Burger (wilhelm.burger@fh-hagenberg.at)
 %% GitHub: https://github.com/Digital-Media/HagenbergThesis
 %% File encoding: ASCII
 
-
-%% Bibliography Setup ---------------------------------------------------------
-
-\ProvidesPackage{hgbbib}
+\ProvidesPackage{hgbbib}[2018/02/19]
 
 \usepackage{csquotes}				% recommended for biblatex
 
@@ -19,28 +17,76 @@
 %% titles of reference section + 3 categories of references:
 \newcommand{\@bibtitle}{Quellenverzeichnis}
 \newcommand{\@bibtitleLiteratur}{Literatur}
-\newcommand{\@bibtitleAvmedia}{Filme und audiovisuelle Medien}
-\newcommand{\@bibtitleOnline}{Online-Quellen}	
+\newcommand{\@bibtitleAvmedia}{Audiovisuelle Medien}
+\newcommand{\@bibtitleOnline}{Online-Quellen}
+\newcommand{\@bibtitleSoftware}{Software}	
 
 \ifthenelse{\equal{\hgb@MainLanguage}{english}}{%
 	\renewcommand{\@bibtitle}{References}
 	\renewcommand{\@bibtitleLiteratur}{Literature}
-	\renewcommand{\@bibtitleAvmedia}{Films and audio-visual media}
+	\renewcommand{\@bibtitleAvmedia}{Audio-visual media}
 	\renewcommand{\@bibtitleOnline}{Online sources}	
+	\renewcommand{\@bibtitleSoftware}{Software}
 }{}
 
-\defbibfilter{literature}{
-	not ( type=movie or type=video or type=music or type=audio or 
-				type=online or type=electronic or type=www or type=software )}
+%% categories for a split bibliography (order of declaration is important!)
+\DeclareBibliographyCategory{literature}
+\DeclareBibliographyCategory{avmedia}
+\DeclareBibliographyCategory{software}
+\DeclareBibliographyCategory{online}
 
-\defbibfilter{avmedia}{%
-	( type=movie or type=video or type=music or type=audio or type=software )}
+%% headings for the bibliography categories
+\defbibheading{literature}{%
+	\phantomsection%
+	\section*{\@bibtitleLiteratur}%
+	\addcontentsline{toc}{section}{\@bibtitleLiteratur}%
+}
 
-\defbibfilter{online}{%
-	( type=online or type=electronic or type=www )}
+\defbibheading{avmedia}{%
+	\pagebreak[3]%
+	\phantomsection%
+	\section*{\@bibtitleAvmedia}%
+	\addcontentsline{toc}{section}{\@bibtitleAvmedia}%
+}
+
+\defbibheading{online}{%
+	\pagebreak[3]%
+	\phantomsection%
+	\section*{\@bibtitleOnline}%
+	\addcontentsline{toc}{section}{\@bibtitleOnline}%
+}
+
+\defbibheading{software}{%
+	\pagebreak[3]%
+	\phantomsection%
+	\section*{\@bibtitleSoftware}%
+	\addcontentsline{toc}{section}{\@bibtitleSoftware}%
+}
 
 \defbibheading{noheader}[]{}		% 'none' should be defined but isn't
 
+%Assign a given bibliography entry to one of the defined categories.
+\newcommand{\@AssignToBibCategory}[1]% argument 1: entry key 
+{\ifthenelse{%
+		\ifentrytype{online}\OR
+		\ifentrytype{www}}
+	{\addtocategory{online}{#1}}%
+{\ifthenelse{%
+		\ifentrytype{movie}\OR
+		\ifentrytype{video}\OR
+		\ifentrytype{music}\OR
+		\ifentrytype{audio}\OR
+		\ifentrytype{image}}
+	{\addtocategory{avmedia}{#1}}%
+{\ifthenelse{%
+		\ifentrytype{software}\OR
+		\ifentrytype{electronic}}
+	{\addtocategory{software}{#1}}%
+	{\addtocategory{literature}{#1}}% else (default)
+}}}
+
+%Hook provided by biblatex.
+\AtEveryCitekey{\@AssignToBibCategory{\thefield{entrykey}}}
 
 %This is only a wrapper to \addbibresource to allow the use
 %of the classic bibtex-workflow in the future.
@@ -78,9 +124,7 @@
 		{% split the bibliography using the predefined categories:
 			\printbibheading[heading=bibintoc,title={\@bibtitle}]
 			\begin{bibhyphenation}
-			\printbibliography[filter=literature,heading=subbibintoc,title={\@bibtitleLiteratur}]
-			\printbibliography[filter=avmedia,heading=subbibintoc,title={\@bibtitleAvmedia}]
-			\printbibliography[filter=online,heading=subbibintoc,title={\@bibtitleOnline}]
+			\bibbycategory
 			\end{bibhyphenation}
 		}%
 }
@@ -97,3 +141,6 @@
 \DeclareBibliographyAlias{movie}{misc}
 \DeclareBibliographyAlias{audio}{misc}
 \DeclareBibliographyAlias{software}{misc}
+\DeclareBibliographyAlias{electronic}{misc}
+\DeclareBibliographyAlias{image}{misc}
+\DeclareBibliographyAlias{standard}{misc}

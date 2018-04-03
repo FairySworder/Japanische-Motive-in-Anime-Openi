@@ -1,4 +1,5 @@
 %% hgbthesis.cls
+%% LaTeX template for creating diploma theses, masters's theses, bachelor's theses and other term papers.
 %% This file is part of the Hagenberg Thesis package for creating bachelors's and masters's theses
 %% Author: Wilhelm Burger (wilhelm.burger@fh-hagenberg.at)
 %% GitHub: https://github.com/Digital-Media/HagenbergThesis
@@ -7,8 +8,7 @@
 %% Package Information --------------------------------------------------------
 
 \NeedsTeXFormat{LaTeX2e}
-\newcommand{\hgbthesisDate}{2017/02/28} %version string
-\ProvidesClass{hgbthesis}[\hgbthesisDate\space LaTeX template for creating diploma theses, masters's theses, bachelor's theses and other term papers.]
+\ProvidesClass{hgbthesis}[2018/02/19]
 
 \RequirePackage{xifthen}
 
@@ -76,9 +76,9 @@
 %% Paper Options and Style File -----------------------------------------------
 
 \LoadClass[a4paper,11pt,oneside]{book}
-\usepackage[top=36mm,bottom=40mm,left=32mm,right=32mm]{geometry} %showframe
+\RequirePackage[top=36mm,bottom=40mm,left=32mm,right=32mm]{geometry} %showframe
  
-\usepackage{hgb}	% load associated style file hgb.sty
+\RequirePackage{hgb}	% load associated style file hgb.sty
 
 
 %% Setup for Pages in the Front Matter ----------------------------------------
@@ -587,7 +587,6 @@ This work is published under the conditions of the
 	\@declarationpage
 }
 
-
 % Add PDF meta data and create title pages
 
 \renewcommand{\maketitle}{	%replace standard LaTeX-command
@@ -595,20 +594,21 @@ This work is published under the conditions of the
 			pdftitle={\@title},
 			pdfauthor={\@author},
 			pdfsubject={\@programname, \@placeofstudy},
-			pdfcreator={LaTeX using class hgbthesis},
-			pdfproducer={},
-			pdfkeywords={}
+			pdfcreator={LaTeX using class hgbthesis [\hgbDate]},
+			pdfproducer={pdflatex},
+			pdfkeywords={},
+			pageanchor=false	% disable hyperref page anchors in frontmatter pages
 	}%
-
 	\@maketitlepages
+	\hypersetup{pageanchor=true}	% enable hyperref page anchors in the main document
 }
 
 %% Additional Hagenberg packages ----------------------------------------------
 
-\usepackage{hgbmath}
-\usepackage{hgbheadings}
-\usepackage{hgbabbrev}
-\usepackage{hgblistings}
-\usepackage{hgbbib}
+\RequirePackage{hgbmath}
+\RequirePackage{hgbheadings}
+\RequirePackage{hgbabbrev}
+\RequirePackage{hgblistings}
+\RequirePackage{hgbbib}
 
 \endinput
