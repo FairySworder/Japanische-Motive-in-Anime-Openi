@@ -8,7 +8,7 @@
 %% Package Information --------------------------------------------------------
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{hgbarticle}[2018/02/19]
+\ProvidesClass{hgbarticle}[2020/01/31]
 
 \RequirePackage{xifthen}
 
@@ -17,32 +17,16 @@
 \else{\errmessage{hgbarticle: *** LaTeX NOT running in PDF mode ***}}
 \fi
 
+%% Handling class options --------------------------------------------------------------
 
-%% Command for language defintion ---------------------------------------------
-
-\newcommand{\hgb@MainLanguage}{german}	% also referenced in hgb.sty
-
-
-%% Class options --------------------------------------------------------------
-
-\DeclareOption{twocolumn}{%
-	\PassOptionsToClass{\CurrentOption}{article}
-}
-
-\DeclareOption{english}{%
-	\renewcommand{\hgb@MainLanguage}{english}
-}
-
-\DeclareOption{german}{%
-	\renewcommand{\hgb@MainLanguage}{german}
-}
-
-\DeclareOption*{%
-	\ClassWarning{hgbarticle}{Unknown document option '\CurrentOption'.}
-}
-
-\ProcessOptions
-
+\DeclareOption{twocolumn}{\PassOptionsToClass{\CurrentOption}{article}}
+%\DeclareOption{english}{\PassOptionsToPackage{\CurrentOption}{hgb}}
+%\DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{hgb}}
+%\DeclareOption{smartquotes}{\PassOptionsToPackage{\CurrentOption}{hgb}}
+%\DeclareOption*{\ClassWarning{hgbreport}{Unknown document option '\CurrentOption'.}}
+% pass all other options to hgb.sty
+\DeclareOption*{\PassOptionsToPackage{\CurrentOption}{hgb}}
+\ProcessOptions*
 
 %% Paper options and style file -----------------------------------------------
 
@@ -54,8 +38,19 @@
 \RequirePackage[top=36mm,bottom=40mm,left=32mm,right=32mm]{geometry} %showframe
 \fi%
 
-\RequirePackage{hgb}	% load associated style file hgb.sty
+\RequirePackage{hgb}	% load style file hgb.sty with options registered above
 
+
+%% Set title font to SF
+\RequirePackage{titling}
+\renewcommand{\maketitlehooka}{\sffamily}
+
+%% Set abstract name to bold (single column format only)
+\if@twocolumn%
+\else%
+\RequirePackage{abstract}
+\renewcommand{\abstractnamefont}{\sffamily\small\bfseries}
+\fi%
 
 % Add PDF meta data
 
@@ -74,6 +69,7 @@
 %% Additional Hagenberg packages ----------------------------------------------
 
 \RequirePackage{hgbmath}
+\RequirePackage{hgbalgo}
 \RequirePackage{hgbheadings}
 \RequirePackage{hgbabbrev}
 \RequirePackage{hgblistings}
