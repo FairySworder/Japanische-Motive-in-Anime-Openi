@@ -29,8 +29,10 @@ Alternativ kann das Dokument über den untenstehenden Link direkt im Online-Edit
 
 | Dokument | PDF | ZIP | Overleaf |
 | :--- | --- | --- | --- |
-| **Exposé-Vorlage zur Bachelorarbeit** | [Vorschau](https://github.com/Digital-Media/MTD248-WA4/raw/master/main.pdf) | [Download](https://github.com/Digital-Media/MTD248-WA4/archive/master.zip) | [Editieren](https://www.overleaf.com/docs?snip_uri=https://github.com/Digital-Media/MTD248-WA4/archive/master.zip) |
+| **Exposé-Vorlage zur Bachelorarbeit** | [Vorschau](https://github.com/Digital-Media/MTD248-WA4/raw/main/main.pdf) | [Download](https://github.com/Digital-Media/MTD248-WA4/archive/main.zip) | [Editieren](https://www.overleaf.com/docs?snip_uri=https://github.com/Digital-Media/MTD248-WA4/archive/main.zip) |
 
 ## Mitarbeiten
 
 Änderungsvorschläge (inhaltlicher Natur, Rechtschreib- oder sonstige Fehler etc.) werden gerne mittels Pull Request entgegengenommen oder können als [Issue](https://github.com/Digital-Media/MTD248-WA4/issues) gemeldet werden.
+
+Fragen und Anmerkungen rund um dieses Dokument können auch unter [Discussions](https://github.com/Digital-Media/MTD248-WA4/discussions) gestellt werden.
