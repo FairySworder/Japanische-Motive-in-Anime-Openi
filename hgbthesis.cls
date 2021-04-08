@@ -8,7 +8,7 @@
 %% Package Information --------------------------------------------------------
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{hgbthesis}[2020/03/03]%%AUTO
+\ProvidesClass{hgbthesis}[2021/03/22]%%AUTO
 
 \RequirePackage{xifthen}
 
@@ -35,10 +35,7 @@
 \DeclareOption{bachelor}{\renewcommand{\@maketitlepages}{\@bachelortitlepages}}
 \DeclareOption{diploma}{\renewcommand{\@maketitlepages}{\@diplomatitlepages}}
 \DeclareOption{internship}{\renewcommand{\@maketitlepages}{\@internshiptitlepages}}
-%\DeclareOption{english}{\PassOptionsToPackage{\CurrentOption}{hgb}}
-%\DeclareOption{german}{\PassOptionsToPackage{\CurrentOption}{hgb}}
-%\DeclareOption{smartquotes}{\PassOptionsToPackage{\CurrentOption}{hgb}}
-%\DeclareOption*{\ClassWarning{hgbthesis}{Unknown document option '\CurrentOption'.}}
+\DeclareOption{apa}{\PassOptionsToPackage{\CurrentOption}{hgbbib}}
 % pass all other options to hgb.sty
 \DeclareOption*{\PassOptionsToPackage{\CurrentOption}{hgb}}
 \ProcessOptions*
@@ -398,6 +395,7 @@ This work is published under the conditions of the
 		andere als die angegebenen Quellen nicht benutzt und die den benutzten Quellen entnommenen Stellen als 
 		solche gekennzeichnet habe. Die Arbeit wurde bisher in gleicher oder \"ahnlicher Form keiner anderen 
 		Pr\"ufungsbeh\"orde vorgelegt.
+		Die vorliegende, gedruckte Arbeit ist mit dem elektronisch \"ubermittelten Textdokument identisch.
 		\par
 		\vspace{10mm}
 		\noindent
@@ -421,6 +419,7 @@ This work is published under the conditions of the
 		I hereby declare and confirm that this thesis is entirely the result of my own original work. 
 		Where other sources of information have been used, they have been indicated as such and properly 
 		acknowledged. I further declare that this or similar work has not been submitted for credit elsewhere.
+		This printed copy is identical to the submitted electronic version.
 		\par
 		\vspace{10mm}
 		\noindent
